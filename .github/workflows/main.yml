@@ -79,11 +79,19 @@ jobs:
         run: |
           mkdir ~/otomi-values
           export ENV_DIR=~/otomi-values
-          kubectl config current-context
           wget https://git.io/otomi-cli -O otomi && chmod +x otomi
-          otomi -h
-          otomi bootstrap
-          cd otomi-values | ls
+          whereis otomi
+         # otomi -h
+         # otomi bootstrap
+         # cat > ~/otomi-values/env/cluster.yaml << EOF
+         # cluster:
+         #  k8sContext: some-context
+         #  k8sVersion: '1.22'
+         #  name: Otomi integration tests
+         #  owner: Otomi integration tests
+         #  provider: digitalocean
+         # EOF
+         # cat ~/otomi-values/env
       - name: Remove the test cluster
         run: doctl kubernetes cluster delete integration-test-${{ github.sha }} -f --dangerous
 
