@@ -54,7 +54,7 @@ env:
 
 jobs:
   integration-test:
-    runs-on: otomi-core:main
+    runs-on: otomi/core:main
     steps:
       - name: Test Otomi CLI
         run: |
