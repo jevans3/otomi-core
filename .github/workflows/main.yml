@@ -81,7 +81,6 @@ jobs:
           export ENV_DIR=~/otomi-values
           echo $ENV_DIR
           wget https://git.io/otomi-cli -O otomi && chmod +x otomi
-        run: 
       - name: Remove the test cluster
         run: doctl kubernetes cluster delete integration-test-${{ github.sha }} -f --dangerous
 
