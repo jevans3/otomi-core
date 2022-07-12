@@ -79,8 +79,11 @@ jobs:
         run: |
           mkdir ~/otomi-values
           export ENV_DIR=~/otomi-values
-          echo $ENV_DIR
+          kubectl config current-context
           wget https://git.io/otomi-cli -O otomi && chmod +x otomi
+          otomi -h
+          otomi bootstrap
+          cd otomi-values | ls
       - name: Remove the test cluster
         run: doctl kubernetes cluster delete integration-test-${{ github.sha }} -f --dangerous
 
