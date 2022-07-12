@@ -75,6 +75,13 @@ jobs:
       - name: Assign the cluster to the project
         run: doctl projects resources assign ${{ env.DIGITALOCEAN_PROJECT }} --resource=do:kubernetes:${{ env.DIGITALOCEAN_CLUSTER_ID }}
         # --- Add Otomi setup here ---
+      - name: Install Otomi
+        run: |
+          mkdir ~/otomi-values
+          export ENV_DIR=~/otomi-values
+          echo $ENV_DIR
+          wget https://git.io/otomi-cli -O otomi && chmod +x otomi
+        run: 
       - name: Remove the test cluster
         run: doctl kubernetes cluster delete integration-test-${{ github.sha }} -f --dangerous
 
