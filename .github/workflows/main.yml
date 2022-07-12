@@ -38,7 +38,21 @@
   #     # cat ~/otomi-values/env
   #  - name: Remove the test cluster
   #    run: doctl kubernetes cluster delete integration-test-${{ github.sha }} -f --dangerous
+name: Build and publish Docker
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '*'
+env:
+  CACHE_REGISTRY: ghcr.io
+  CACHE_REPO: redkubes/otomi-core
+  REPO: otomi/core
+  GIT_USER: redkubesbot
+  DIGITALOCEAN_PROJECT: 888d7eee-cd33-4f22-8499-274c393f9b80
 
+jobs:
   integration-test:
     runs-on: otomi-core:main
     steps:
