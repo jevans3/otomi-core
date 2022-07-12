@@ -76,12 +76,11 @@ jobs:
         run: doctl projects resources assign ${{ env.DIGITALOCEAN_PROJECT }} --resource=do:kubernetes:${{ env.DIGITALOCEAN_CLUSTER_ID }}
         # --- Add Otomi setup here ---
       - name: Install Otomi
+        uses: otomi-core:main
         run: |
           mkdir ~/otomi-values
           export ENV_DIR=~/otomi-values
-          wget https://git.io/otomi-cli -O otomi && chmod +x otomi
-          whereis otomi
-         # otomi -h
+          binzx/otomi --help
          # otomi bootstrap
          # cat > ~/otomi-values/env/cluster.yaml << EOF
          # cluster:
