@@ -52,47 +52,54 @@ jobs:
           tags: |
             ${{ env.CACHE_REGISTRY }}/${{ env.CACHE_REPO }}:${{ env.TAG }}
 
-  integration:
-    # needs: build-test-cache
-    # skip integration check for releases, as the main they are derived from have already been integration tested:
-    runs-on: ubuntu-latest
+  # egration:
+  #  needs: build-test-cache
+  #  skip integration check for releases, as the main they are derived from have already been integration tested:
+  # uns-on: ubuntu-latest
+  # teps:
+  #  - name: Install doctl
+  #    uses: digitalocean/action-doctl@v2
+  #    with:
+  #      token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+  #  - name: Create k8s cluster for testing
+  #    run: |
+  #      doctl kubernetes cluster create integration-test-${{ github.sha }} \
+  #        --tag integration-test \
+  #        --region ams3 \
+  #        --vpc-uuid=2c840be3-de75-48c4-b0d6-66b214e2d39e \
+  #        --node-pool "name=pool-int-test-${{ github.sha }};size=s-8vcpu-16gb;tag=integration-test;auto-scale=true;min-nodes=2;max-nodes=5;count=2;" \
+  #        --wait
+  #    # Also saves the kubeconfig by default
+  #  - name: Retrieve cluster id
+  #    run: echo DIGITALOCEAN_CLUSTER_ID=`doctl kubernetes cluster get integration-test-${{ github.sha }} --format ID --no-header` >> $GITHUB_ENV
+  #  - name: Assign the cluster to the project
+  #    run: doctl projects resources assign ${{ env.DIGITALOCEAN_PROJECT }} --resource=do:kubernetes:${{ env.DIGITALOCEAN_CLUSTER_ID }}
+  #    # --- Add Otomi setup here ---
+  #  - name: Install Otomi
+  #    run: |
+  #      mkdir ~/otomi-values
+  #      export ENV_DIR=~/otomi-values
+  #      binzx
+  #     # otomi bootstrap
+  #     # cat > ~/otomi-values/env/cluster.yaml << EOF
+  #     # cluster:
+  #     #  k8sContext: some-context
+  #     #  k8sVersion: '1.22'
+  #     #  name: Otomi integration tests
+  #     #  owner: Otomi integration tests
+  #     #  provider: digitalocean
+  #     # EOF
+  #     # cat ~/otomi-values/env
+  #  - name: Remove the test cluster
+  #    run: doctl kubernetes cluster delete integration-test-${{ github.sha }} -f --dangerous
+
+  integration-test:
+    runs-on: otomi-core:main
     steps:
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      - name: Create k8s cluster for testing
+      - name: Test Otomi CLI
         run: |
-          doctl kubernetes cluster create integration-test-${{ github.sha }} \
-            --tag integration-test \
-            --region ams3 \
-            --vpc-uuid=2c840be3-de75-48c4-b0d6-66b214e2d39e \
-            --node-pool "name=pool-int-test-${{ github.sha }};size=s-8vcpu-16gb;tag=integration-test;auto-scale=true;min-nodes=2;max-nodes=5;count=2;" \
-            --wait
-        # Also saves the kubeconfig by default
-      - name: Retrieve cluster id
-        run: echo DIGITALOCEAN_CLUSTER_ID=`doctl kubernetes cluster get integration-test-${{ github.sha }} --format ID --no-header` >> $GITHUB_ENV
-      - name: Assign the cluster to the project
-        run: doctl projects resources assign ${{ env.DIGITALOCEAN_PROJECT }} --resource=do:kubernetes:${{ env.DIGITALOCEAN_CLUSTER_ID }}
-        # --- Add Otomi setup here ---
-      - name: Install Otomi
-        uses: otomi-core:main
-        run: |
-          mkdir ~/otomi-values
-          export ENV_DIR=~/otomi-values
           binzx/otomi --help
-         # otomi bootstrap
-         # cat > ~/otomi-values/env/cluster.yaml << EOF
-         # cluster:
-         #  k8sContext: some-context
-         #  k8sVersion: '1.22'
-         #  name: Otomi integration tests
-         #  owner: Otomi integration tests
-         #  provider: digitalocean
-         # EOF
-         # cat ~/otomi-values/env
-      - name: Remove the test cluster
-        run: doctl kubernetes cluster delete integration-test-${{ github.sha }} -f --dangerous
+
 
   push-to-docker:
     # needs: [build-test-cache, integration]
