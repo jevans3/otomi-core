@@ -2467,6 +2467,7 @@ properties:
                   - clientId
                   - clientSecret
                   - keys
+                  - tenantId
             required:
               - azure
           - properties:

@@ -95,7 +95,10 @@ export const bootstrapSops = async (
         deps.writeFileSync(secretsFile, `AWS_ACCESS_KEY_ID='${v.accessKey}'\nAWS_ACCESS_KEY_SECRET=${v.secretKey}`)
       } else if (provider === 'azure') {
         const v = values.kms!.sops!.azure!
-        deps.writeFileSync(secretsFile, `AZURE_CLIENT_ID='${v.clientId}'\nAZURE_CLIENT_SECRET=${v.clientSecret}`)
+        deps.writeFileSync(
+          secretsFile,
+          `AZURE_CLIENT_ID='${v.clientId}'\nAZURE_CLIENT_SECRET=${v.clientSecret}\nAZURE_TENANT_ID=${v.tenantId}`,
+        )
       } else if (provider === 'vault') {
         const v = values.kms!.sops!.vault!
         deps.writeFileSync(secretsFile, `VAULT_TOKEN='${v.token}'`)
