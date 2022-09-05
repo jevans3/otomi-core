@@ -14,7 +14,7 @@ export interface Arguments extends BasicArguments {
 EventEmitter.defaultMaxListeners = 20
 
 enum CryptType {
-  ENCRYPT = 'helm secrets enc',
+  ENCRYPT = 'helm secrets enc --debug',
   DECRYPT = 'helm secrets dec',
   ROTATE = 'sops --input-type=yaml --output-type=yaml -i -r',
 }

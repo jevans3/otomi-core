@@ -5,7 +5,8 @@ sources:
 - ingress
 - istio-gateway
 ## - aws, azure, cloudflare, coredns, designate, digitalocoean, google, infoblox, rfc2136
-
+podLabels:
+  aadpodidbinding: vault-identity-selector
 # @TODO:
 image:
   tag: 0.11.0
