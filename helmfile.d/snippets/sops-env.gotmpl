@@ -6,6 +6,11 @@ AZURE_TENANT_ID: {{ . }}{{ end }}
 {{- with . | get "environment" nil }}
 AZURE_ENVIRONMENT: {{ . }}{{ end }}
 {{- end }}
+{{- with . | get "azure-msi" nil }}
+AZURE_AUTH_METHOD: msi
+AZURE_AD_RESOURCE: {{.resourceID }}
+AZURE_CLIENT_ID: {{ .clientId }}
+{{- end }}
 {{- with . | get "aws" nil }}
 AWS_ACCESS_KEY_ID: {{ .accessKey }}
 AWS_SECRET_ACCESS_KEY: {{ .secretKey }}
