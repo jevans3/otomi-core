@@ -2463,32 +2463,14 @@ properties:
                     $ref: '#/definitions/azure/definitions/clientSecret'
                   tenantId:
                     $ref: '#/definitions/azure/definitions/tenantId'
+                resourceId:
+                  $ref: '#/definitions/wordCharacterPattern'
                 required:
                   - clientId
-                  - clientSecret
                   - keys
+
             required:
               - azure
-          - properties:
-              provider:
-                type: string
-                const: azure-msi
-              azure-msi:
-                properties:
-                  keys:
-                    description: Comma separated list of one or two paths to keys as defined in Azure Keyvault. One if used for both enc+dec. Two if one for enc, other for dec.
-                    title: Azure Keyvault keys
-                    type: string
-                  clientId:
-                    $ref: '#/definitions/azure/definitions/clientId'
-                  resourceID:
-                    $ref: '#/definitions/wordCharacterPattern'
-                required:
-                  - clientId
-                  - resourceID
-                  - keys
-            required:
-              - azure-msi
           - properties:
               provider:
                 type: string
